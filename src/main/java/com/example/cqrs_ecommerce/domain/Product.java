@@ -1,7 +1,6 @@
 package com.example.cqrs_ecommerce.domain;
-import java.math.BigDecimal;
 import java.util.Objects;
-import java.util.UUID;
+
 
 // Domain Object
 //saf java
@@ -41,7 +40,11 @@ public class Product {
         return new Product(ProductId.generate(), name, money, description,stock);
     }
 
-    public void setName(String name){
+    // setter demek override etmek demek, veriyi değiştirmek
+    // bizim domain nesnemizin veri ile işi yok.
+    // setter yerine iş yapan metotlar olmalı. işlem sonucu değerleri değiştiren
+
+    public void rename(String name){
         validateName(name);
         this. name = name ;
     }
@@ -53,11 +56,10 @@ public class Product {
             throw new IllegalArgumentException("Name must be at least 2 characters");
     }
 
-    public void setMoney(Money money){
-        //  kendi içindeki kurallarla validasyon kontrolü yaptığı için burada çok kural yok
-        Objects.requireNonNull(money,"Money cannot be null.");
-        this.money = money;
-    }
+    public void changePrice(Money newPrice){
+        Objects.requireNonNull(newPrice,"Price cannot be null");
+        this.money = newPrice;
+}
 
     public void setDescription(String description){
         validateDescription(description);
@@ -72,9 +74,23 @@ public class Product {
             throw new IllegalArgumentException("Description length must be less than 255 characters.");
     }
 
-    public void setStock(Integer stock){
+    // stock override edilmez ya arttırılı ya da azaltılır
+    public void dispatch(Integer quantityToDispatch){
+        if (quantityToDispatch == null || quantityToDispatch <= 0)
+            throw new IllegalArgumentException("Quantity to dispatch must be greater than 0");
+        if (this.stock < quantityToDispatch)
+            throw new IllegalArgumentException("Insufficient stock");
+
         validateStock(stock);
-        this.stock = stock;
+        this.stock -= stock;
+    }
+
+    public void restock(Integer quantityToRestock){
+        if (quantityToRestock == null || quantityToRestock <=0 )
+            throw new IllegalArgumentException("Quantity to restock must be positive.");
+
+        this.stock += stock;
+
     }
 
     private static void validateStock(Integer stock){
