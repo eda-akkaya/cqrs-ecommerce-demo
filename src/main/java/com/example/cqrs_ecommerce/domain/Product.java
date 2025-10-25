@@ -1,5 +1,6 @@
 package com.example.cqrs_ecommerce.domain;
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.UUID;
 
 // Domain Object
@@ -18,15 +19,24 @@ public class Product {
     //Bu nesne sadece benim vereceğim factory metotlarıyla oluşturulsun.
     private Product(ProductId id, String name, Money money, String description, Integer stock) {
         this.id = id;
-        setName(name);
-        setDescription(description);
-        setMoney(money);
-        setStock(stock);
-// set işlemleri validasyonları çağırmış olur.
+        this.name = name;
+        this.money = money;
+        this.description = description;
+        this.stock = stock;
+// constructor içinde set çağırmak doğru bir yapı değil,
+// validasyonları create ile yapacağım, buranın görevi sadece creation olacak
     }
+
+
 // sistemdeki diğer nesneler, bunun üzerinden create etsin
     // create ederken id olmayacak her seferinde yeni id oluşacak sistem id göndersin istemiiyorum
     public static  Product create(String name, Money money, String description, Integer stock){
+        validateName(name);
+        Objects.requireNonNull(money,"Money cannot be null.");
+        validateDescription(description);
+        validateStock(stock);
+
+
         return new Product(ProductId.generate(), name, money, description,stock);
     }
 
@@ -35,7 +45,7 @@ public class Product {
         this. name = name ;
     }
 
-    private void validateName(String name){
+    private static void validateName(String name){
         if (name == null || name.isBlank())
             throw new IllegalArgumentException("Name cannot be null or blank.");
         if (name.length() < 2)
@@ -44,9 +54,7 @@ public class Product {
 
     public void setMoney(Money money){
         //  kendi içindeki kurallarla validasyon kontrolü yaptığı için burada çok kural yok
-        if (money == null)
-            throw new IllegalArgumentException("Money cannot be null.");
-
+        Objects.requireNonNull(money,"Money cannot be null.");
         this.money = money;
     }
 
@@ -56,7 +64,7 @@ public class Product {
 
     }
 
-    private void validateDescription(String description){
+    private static void validateDescription(String description){
         if (description == null || description.length() < 3)
             throw new IllegalArgumentException("Description must be at least 3 characters.");
         if (description.length() > 255)
@@ -68,7 +76,7 @@ public class Product {
         this.stock = stock;
     }
 
-    private void validateStock(Integer stock){
+    private static void validateStock(Integer stock){
         if (stock == null || stock <= 0)
             throw new IllegalArgumentException("Stock cannot be null or negative value.");
     }
