@@ -29,7 +29,8 @@ public class Product {
 
 
 // sistemdeki diğer nesneler, bunun üzerinden create etsin
-    // create ederken id olmayacak her seferinde yeni id oluşacak sistem id göndersin istemiiyorum
+    // create ederken id olmayacak her seferinde yeni id oluşacak sistem id göndersin istemiyorum
+    // static factory method (idiom)
     public static  Product create(String name, Money money, String description, Integer stock){
         validateName(name);
         Objects.requireNonNull(money,"Money cannot be null.");
@@ -79,5 +80,26 @@ public class Product {
     private static void validateStock(Integer stock){
         if (stock == null || stock <= 0)
             throw new IllegalArgumentException("Stock cannot be null or negative value.");
+    }
+
+    // getters
+    public ProductId id() {
+        return id;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    public Money money() {
+        return money;
+    }
+
+    public String description() {
+        return description;
+    }
+
+    public Integer stock() {
+        return stock;
     }
 }
