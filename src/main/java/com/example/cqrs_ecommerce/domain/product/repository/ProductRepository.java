@@ -1,4 +1,7 @@
-package com.example.cqrs_ecommerce.domain;
+package com.example.cqrs_ecommerce.domain.product.repository;
+
+import com.example.cqrs_ecommerce.domain.product.model.Product;
+import com.example.cqrs_ecommerce.domain.product.model.ProductId;
 
 import java.util.Optional;
 

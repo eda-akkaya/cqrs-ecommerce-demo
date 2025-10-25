@@ -1,7 +1,7 @@
 package com.example.cqrs_ecommerce;
 
-import com.example.cqrs_ecommerce.domain.Money;
-import com.example.cqrs_ecommerce.domain.Product;
+import com.example.cqrs_ecommerce.domain.product.model.Money;
+import com.example.cqrs_ecommerce.domain.product.model.Product;
 
 import java.math.BigDecimal;
 

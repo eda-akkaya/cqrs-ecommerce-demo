@@ -1,4 +1,4 @@
-package com.example.cqrs_ecommerce.domain;
+package com.example.cqrs_ecommerce.domain.product.model;
 import java.util.Objects;
 
 
