@@ -41,7 +41,7 @@ public class Product {
         return new Product(ProductId.generate(), name, money, description,stock);
     }
 
-    private void setName(String name){
+    public void setName(String name){
         validateName(name);
         this. name = name ;
     }
