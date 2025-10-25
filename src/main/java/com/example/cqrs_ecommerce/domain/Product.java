@@ -12,6 +12,7 @@ public class Product {
     private String name;
     private Money money;
     private String description;
+    private Integer stock;
 
     private void setName(String name){
         validateName(name);
@@ -46,4 +47,12 @@ public class Product {
             throw new IllegalArgumentException("Description length must be less than 255 characters.");
     }
 
+    public void setStock(Integer stock){
+        this.stock = stock;
+    }
+
+    private void validateStock(Integer stock){
+        if (stock == null || stock <= 0)
+            throw new IllegalArgumentException("Stock cannot be null or negative value.");
+    }
 }
