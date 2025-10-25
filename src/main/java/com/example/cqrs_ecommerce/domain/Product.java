@@ -7,10 +7,10 @@ import java.util.UUID;
 
 // Aggregate root
 public class Product {
-    private UUID id;
+    // ProductId: reference tip
+    private ProductId id;
     private String name;
-    private BigDecimal price;
-    private String currency;
+    private Money money;
     private String description;
 
     private void setName(String name){
@@ -25,15 +25,12 @@ public class Product {
             throw new IllegalArgumentException("Name must be at least 2 characters");
     }
 
-    private void setPrice(BigDecimal price){
-        validatePrice(price);
-        this.price = price;
-    }
+    public void setMoney(Money money){
+        //  kendi içindeki kurallarla validasyon kontrolü yaptığı için burada çok kural yok
+        if (money == null)
+            throw new IllegalArgumentException("Money cannot be null.");
 
-    private void validatePrice(BigDecimal price){
-
-        if (price == null || price.compareTo(BigDecimal.ZERO) < 0)
-            throw new IllegalArgumentException("Price must be greater than or equal to zero.");
+        this.money = money;
     }
 
     public void setDescription(String description){
