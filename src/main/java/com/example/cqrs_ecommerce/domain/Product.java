@@ -8,11 +8,27 @@ import java.util.UUID;
 // Aggregate root
 public class Product {
     // ProductId: reference tip
-    private ProductId id;
+    private final ProductId id; //final old. için constructor gerekli
     private String name;
     private Money money;
     private String description;
     private Integer stock;
+
+    // Kontrollü oluşturma için constructor private olmalı
+    //Bu nesne sadece benim vereceğim factory metotlarıyla oluşturulsun.
+    private Product(ProductId id, String name, Money money, String description, Integer stock) {
+        this.id = id;
+        setName(name);
+        setDescription(description);
+        setMoney(money);
+        setStock(stock);
+// set işlemleri validasyonları çağırmış olur.
+    }
+// sistemdeki diğer nesneler, bunun üzerinden create etsin
+    // create ederken id olmayacak her seferinde yeni id oluşacak sistem id göndersin istemiiyorum
+    public static  Product create(String name, Money money, String description, Integer stock){
+        return new Product(ProductId.generate(), name, money, description,stock);
+    }
 
     private void setName(String name){
         validateName(name);
@@ -48,6 +64,7 @@ public class Product {
     }
 
     public void setStock(Integer stock){
+        validateStock(stock);
         this.stock = stock;
     }
 
