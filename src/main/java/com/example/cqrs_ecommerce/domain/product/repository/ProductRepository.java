@@ -3,6 +3,7 @@ package com.example.cqrs_ecommerce.domain.product.repository;
 import com.example.cqrs_ecommerce.domain.product.model.Product;
 import com.example.cqrs_ecommerce.domain.product.model.ProductId;
 
+import java.util.List;
 import java.util.Optional;
 
 // @Repository, extends JpaRepository gibi ifadeler burada yok. domain'deyiz : saf java
@@ -11,4 +12,6 @@ import java.util.Optional;
 public interface ProductRepository {
     Product save(Product product);
     Optional<Product> findById(ProductId productId);
+    List<Product> findAll();
+    void delete(ProductId productId);
 }
