@@ -1,4 +1,4 @@
-package com.example.cqrs_ecommerce;
+package com.example.cqrs_ecommerce.interfaces.console;
 
 import com.example.cqrs_ecommerce.domain.product.model.Money;
 import com.example.cqrs_ecommerce.domain.product.model.Product;
@@ -16,7 +16,7 @@ public class Main {
                 "Ürün 1 açıklaması",
                 140
         );
-        product.setName("ürün 2");
+        product.rename("ürün 2");
         System.out.println(product.name());
     }
 }
