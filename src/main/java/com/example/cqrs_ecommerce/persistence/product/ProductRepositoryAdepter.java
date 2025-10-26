@@ -3,6 +3,8 @@ package com.example.cqrs_ecommerce.persistence.product;
 import com.example.cqrs_ecommerce.domain.product.model.Product;
 import com.example.cqrs_ecommerce.domain.product.model.ProductId;
 import com.example.cqrs_ecommerce.domain.product.repository.ProductRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,7 +29,7 @@ public class ProductRepositoryAdepter implements ProductRepository {
         //kaydedilen yapıyı Product'a geri maple ve return et
 
         JpaProductEntity entity = productEntityMapper.toEntity(product);
-        entity = this.repository.save(entity);
+        entity = repository.save(entity);
 
         return productEntityMapper.toDomain(entity);
 
@@ -35,16 +37,34 @@ public class ProductRepositoryAdepter implements ProductRepository {
 
     @Override
     public Optional<Product> findById(ProductId productId) {
-        return Optional.empty();
+        return repository
+                .findById(productId.value())
+                .map(productEntityMapper::toDomain); //.map(p->productEntityMapper.toDomain(p));
     }
 
     @Override
     public List<Product> findAll() {
-        return List.of();
+        return repository
+                .findAll()
+                .stream()
+                //method reference ::
+                .map(productEntityMapper::toDomain)
+                .toList();
+
+    }
+
+    @Override
+    public List<Product> findAllPaged(int pageIndex, int pageSize) {
+        return repository.findAll(PageRequest.of(pageIndex,pageSize))
+                .stream()
+                .map(productEntityMapper::toDomain)
+                .toList();
     }
 
     @Override
     public void delete(ProductId productId) {
-
+        repository.deleteById(productId.value());
     }
+
+
 }

@@ -3,8 +3,10 @@ package com.example.cqrs_ecommerce.persistence.product;
 import com.example.cqrs_ecommerce.domain.product.model.Money;
 import com.example.cqrs_ecommerce.domain.product.model.Product;
 import com.example.cqrs_ecommerce.domain.product.model.ProductId;
+import org.springframework.stereotype.Component;
 
 //mapstruct ile daha zahmetli olacağı için bu şekilde yaptık
+@Component
 public class ProductEntityMapper {
     public JpaProductEntity toEntity(Product product){
         JpaProductEntity productEntity = new JpaProductEntity();
