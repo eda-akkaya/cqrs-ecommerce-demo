@@ -36,9 +36,15 @@ public class Product {
         validateDescription(description);
         validateStock(stock);
 
-
         return new Product(ProductId.generate(), name, money, description,stock);
     }
+
+    // rehydrate method -> persist edilmiş(okunmuş) veriyi geri yüklemek
+    // id'li şekilde Product oluşturma ihtiyacımız olabilir
+    public static Product rehydrate(ProductId id, String name, Money money, String description, Integer stock){
+        return new Product(ProductId.generate(), name, money, description, stock);
+    }
+
 
     // setter demek override etmek demek, veriyi değiştirmek
     // bizim domain nesnemizin veri ile işi yok.
@@ -50,10 +56,10 @@ public class Product {
     }
 
     private static void validateName(String name){
-        if (name == null || name.isBlank())
-            throw new IllegalArgumentException("Name cannot be null or blank.");
-        if (name.length() < 2)
-            throw new IllegalArgumentException("Name must be at least 2 characters");
+        if (name == null || name.isEmpty())
+            throw new IllegalArgumentException("Name cannot be null or empty.");
+        if (name.length() >= 255)
+            throw new IllegalArgumentException("Name length length must be less than 255 characters.");
     }
 
     public void changePrice(Money newPrice){
@@ -68,9 +74,9 @@ public class Product {
     }
 
     private static void validateDescription(String description){
-        if (description == null || description.length() < 3)
-            throw new IllegalArgumentException("Description must be at least 3 characters.");
-        if (description.length() > 255)
+        if (description == null || description.isEmpty())
+            throw new IllegalArgumentException("Description cannot be null or empty");
+        if (description.length() >= 255)
             throw new IllegalArgumentException("Description length must be less than 255 characters.");
     }
 
