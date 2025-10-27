@@ -14,6 +14,7 @@ public record ProductId(UUID value) implements Serializable {
 
     // Factory method
     public static ProductId generate(){
+
         return new ProductId(UUID.randomUUID());
     }
 }
