@@ -1,6 +1,7 @@
 package com.example.cqrs_ecommerce.application.product.mapper;
 
 import com.example.cqrs_ecommerce.application.product.command.CreateProductCommand;
+import com.example.cqrs_ecommerce.application.product.dto.CreatedProductResponse;
 import com.example.cqrs_ecommerce.domain.product.model.Money;
 import com.example.cqrs_ecommerce.domain.product.model.Product;
 
@@ -11,4 +12,14 @@ public class CreateProductMapper {
                 command.description(),
                 command.stock());
     }
+
+    public CreatedProductResponse toResponse(Product product){
+        return new CreatedProductResponse(
+                product.id().value(),
+                product.name(),
+                product.description()
+        );
+    }
+
+
 }
