@@ -4,20 +4,19 @@ import com.example.cqrs_ecommerce.domain.product.model.Product;
 import com.example.cqrs_ecommerce.domain.product.model.ProductId;
 import com.example.cqrs_ecommerce.domain.product.repository.ProductRepository;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class ProductRepositoryAdepter implements ProductRepository {
-    // domain'in istediklerini yerine getireceğim
+public class ProductRepositoryAdapter implements ProductRepository {
+    // domain'in istediklerini yerine getirecek
 
     private final SpringDataProductRepository repository;
     private final ProductEntityMapper productEntityMapper;
 
-    public ProductRepositoryAdepter(SpringDataProductRepository repository, ProductEntityMapper productEntityMapper) {
+    public ProductRepositoryAdapter(SpringDataProductRepository repository, ProductEntityMapper productEntityMapper) {
         this.repository = repository;
         this.productEntityMapper = productEntityMapper;
     }
@@ -64,6 +63,12 @@ public class ProductRepositoryAdepter implements ProductRepository {
     @Override
     public void delete(ProductId productId) {
         repository.deleteById(productId.value());
+    }
+
+    @Override
+    public boolean existsByNameIgnoreCase(String name) {
+        return repository.existsByNameIgnoreCase(name);
+
     }
 
 
